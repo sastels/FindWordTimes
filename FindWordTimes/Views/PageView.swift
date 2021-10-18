@@ -1,5 +1,5 @@
 //
-//  SentenceRow.swift
+//  PageView.swift
 //  MacAudioParser
 //
 //  Created by Stephen Astels on 2021-10-02.
@@ -8,7 +8,9 @@
 import Speech
 import SwiftUI
 
-struct SentenceRow: View {
+struct PageView: View {
+  @EnvironmentObject var book: Book
+  @State var pageIndex: Int
   @State var url: URL
   @State var fragments: [Fragment] = []
 
@@ -23,7 +25,12 @@ struct SentenceRow: View {
         colorWords()
       }.buttonStyle(NiceButtonStyle())
 
-      textForWords(fragments)
+      HStack {
+        ForEach(fragments, id: \.id) {
+          Text($0.text).foregroundColor($0.color).padding(.leading, 8).padding(.trailing, 8)
+            .border(Color.green)
+        }
+      }
     }
   }
 
@@ -46,13 +53,15 @@ struct SentenceRow: View {
         let request = SFSpeechURLRecognitionRequest(url: url)
         SFSpeechRecognizer()?.recognitionTask(with: request) { result, _ in
           if let transcription = result?.bestTranscription {
-            fragments = []
+            fragments.removeAll()
+            book.pages[pageIndex].transcription.removeAll()
             for segment in transcription.segments {
-              fragments.append(
-                Fragment(text: segment.substring,
-                         startTime: segment.timestamp,
-                         endTime: segment.timestamp + segment.duration,
-                         color: .white))
+              let newFragment = Fragment(text: segment.substring,
+                                         startTime: segment.timestamp,
+                                         endTime: segment.timestamp + segment.duration,
+                                         color: .white)
+              fragments.append(newFragment)
+              book.pages[pageIndex].transcription.append(newFragment)
             }
           }
         }
@@ -69,8 +78,8 @@ struct SentenceRow: View {
   }
 }
 
-struct SentenceRow_Previews: PreviewProvider {
+struct PageView_Previews: PreviewProvider {
   static var previews: some View {
-    SentenceRow(url: URL(fileURLWithPath: ""))
+    PageView(pageIndex: 0, url: URL(fileURLWithPath: "")).environmentObject(Book())
   }
 }
