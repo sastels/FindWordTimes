@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct FindWordTimesApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  @StateObject var book = Book()
+  var body: some Scene {
+    WindowGroup {
+      ContentView().environmentObject(book)
     }
+  }
 }

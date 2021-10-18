@@ -13,9 +13,10 @@
 		014183A1271B440300CA9561 /* FragmentUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0141839F271B440300CA9561 /* FragmentUtils.swift */; };
 		014183A2271B440300CA9561 /* AudioUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A0271B440300CA9561 /* AudioUtils.swift */; };
 		014183A6271B443E00CA9561 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A3271B443E00CA9561 /* ContentView.swift */; };
-		014183A7271B443E00CA9561 /* SentenceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A4271B443E00CA9561 /* SentenceRow.swift */; };
-		014183A8271B443E00CA9561 /* BookText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A5271B443E00CA9561 /* BookText.swift */; };
+		014183A7271B443E00CA9561 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A4271B443E00CA9561 /* PageView.swift */; };
+		014183A8271B443E00CA9561 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A5271B443E00CA9561 /* BookView.swift */; };
 		014183AA271B447200CA9561 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A9271B447200CA9561 /* ButtonStyle.swift */; };
+		014183B2271CEB6000CA9561 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183B1271CEB6000CA9561 /* Book.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +29,10 @@
 		0141839F271B440300CA9561 /* FragmentUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FragmentUtils.swift; sourceTree = "<group>"; };
 		014183A0271B440300CA9561 /* AudioUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUtils.swift; sourceTree = "<group>"; };
 		014183A3271B443E00CA9561 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		014183A4271B443E00CA9561 /* SentenceRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SentenceRow.swift; sourceTree = "<group>"; };
-		014183A5271B443E00CA9561 /* BookText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookText.swift; sourceTree = "<group>"; };
+		014183A4271B443E00CA9561 /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		014183A5271B443E00CA9561 /* BookView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
 		014183A9271B447200CA9561 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
+		014183B1271CEB6000CA9561 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,15 +65,13 @@
 		0141838D271B436600CA9561 /* FindWordTimes */ = {
 			isa = PBXGroup;
 			children = (
+				015A7790271CFACD0041761E /* Views */,
+				014183B0271CEB5200CA9561 /* Model */,
 				0141839E271B440300CA9561 /* utils */,
 				0141838E271B436600CA9561 /* FindWordTimesApp.swift */,
-				014183A5271B443E00CA9561 /* BookText.swift */,
-				014183A3271B443E00CA9561 /* ContentView.swift */,
-				014183A4271B443E00CA9561 /* SentenceRow.swift */,
+				01418398271B436700CA9561 /* FindWordTimes.entitlements */,
 				01418392271B436700CA9561 /* Assets.xcassets */,
 				01418397271B436700CA9561 /* Info.plist */,
-				01418398271B436700CA9561 /* FindWordTimes.entitlements */,
-				014183A9271B447200CA9561 /* ButtonStyle.swift */,
 				01418394271B436700CA9561 /* Preview Content */,
 			);
 			path = FindWordTimes;
@@ -88,10 +88,29 @@
 		0141839E271B440300CA9561 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				014183A9271B447200CA9561 /* ButtonStyle.swift */,
 				0141839F271B440300CA9561 /* FragmentUtils.swift */,
 				014183A0271B440300CA9561 /* AudioUtils.swift */,
 			);
 			path = utils;
+			sourceTree = "<group>";
+		};
+		014183B0271CEB5200CA9561 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				014183B1271CEB6000CA9561 /* Book.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		015A7790271CFACD0041761E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				014183A3271B443E00CA9561 /* ContentView.swift */,
+				014183A5271B443E00CA9561 /* BookView.swift */,
+				014183A4271B443E00CA9561 /* PageView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,12 +182,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				014183B2271CEB6000CA9561 /* Book.swift in Sources */,
 				0141838F271B436600CA9561 /* FindWordTimesApp.swift in Sources */,
-				014183A8271B443E00CA9561 /* BookText.swift in Sources */,
+				014183A8271B443E00CA9561 /* BookView.swift in Sources */,
 				014183A2271B440300CA9561 /* AudioUtils.swift in Sources */,
 				014183A6271B443E00CA9561 /* ContentView.swift in Sources */,
 				014183A1271B440300CA9561 /* FragmentUtils.swift in Sources */,
-				014183A7271B443E00CA9561 /* SentenceRow.swift in Sources */,
+				014183A7271B443E00CA9561 /* PageView.swift in Sources */,
 				014183AA271B447200CA9561 /* ButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

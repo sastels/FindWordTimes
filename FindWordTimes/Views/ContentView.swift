@@ -17,6 +17,7 @@ enum windowSize {
 }
 
 struct ContentView: View {
+  @EnvironmentObject var book: Book
   @State var bookPath: String = ""
   @State var urls: [URL] = [] {
     didSet {
@@ -33,7 +34,7 @@ struct ContentView: View {
             openBook()
           }.buttonStyle(NiceButtonStyle())
         }
-        BookText(urls: urls).foregroundColor(.white)
+        BookView(urls: urls).foregroundColor(.white)
           .frame(minWidth: windowSize.minWidth, minHeight: windowSize.minHeight)
           .frame(maxWidth: windowSize.maxWidth, maxHeight: windowSize.maxHeight)
         Spacer()
@@ -73,8 +74,7 @@ struct ContentView: View {
     do {
       let items = try fm.contentsOfDirectory(atPath: bookPath).filter { $0.hasSuffix(".mp3") }
       urls = items.sorted().map { URL(fileURLWithPath: "\(bookPath)/\($0)") }
-
-      print("getFiles \(urls)")
+      book.setUrls(urls)
     } catch {
       // failed to read directory – bad permissions, perhaps?
       print("getFiles fail, probably because of sandboxing")
@@ -86,6 +86,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView()
+    ContentView().environmentObject(Book())
   }
 }
