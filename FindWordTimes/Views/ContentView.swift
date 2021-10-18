@@ -32,10 +32,10 @@ struct ContentView: View {
         HStack(spacing: 16) {
           Button("Choose Book") {
             openBook()
-          }.buttonStyle(NiceButtonStyle())
+          }.buttonStyle(CustomButtonStyle())
           Button("Print Metadata") {
             print(book)
-          }.buttonStyle(NiceButtonStyle())
+          }.buttonStyle(CustomButtonStyle())
           
           
         }
