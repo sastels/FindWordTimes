@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PageView: View {
   @EnvironmentObject var book: Book
+  @State var pageIndex: Int
   @State var url: URL
   @State var fragments: [Fragment] = []
 
@@ -24,7 +25,12 @@ struct PageView: View {
         colorWords()
       }.buttonStyle(NiceButtonStyle())
 
-      textForWords(fragments)
+      HStack {
+        ForEach(fragments, id: \.id) {
+          Text($0.text).foregroundColor($0.color).padding(.leading, 8).padding(.trailing, 8)
+            .border(Color.green)
+        }
+      }
     }
   }
 
@@ -48,12 +54,14 @@ struct PageView: View {
         SFSpeechRecognizer()?.recognitionTask(with: request) { result, _ in
           if let transcription = result?.bestTranscription {
             fragments.removeAll()
+            book.pages[pageIndex].transcription.removeAll()
             for segment in transcription.segments {
               let newFragment = Fragment(text: segment.substring,
-                                        startTime: segment.timestamp,
-                                        endTime: segment.timestamp + segment.duration,
-                                        color: .white)
+                                         startTime: segment.timestamp,
+                                         endTime: segment.timestamp + segment.duration,
+                                         color: .white)
               fragments.append(newFragment)
+              book.pages[pageIndex].transcription.append(newFragment)
             }
           }
         }
@@ -72,6 +80,6 @@ struct PageView: View {
 
 struct PageView_Previews: PreviewProvider {
   static var previews: some View {
-    PageView(url: URL(fileURLWithPath: "")).environmentObject(Book())
+    PageView(pageIndex: 0, url: URL(fileURLWithPath: "")).environmentObject(Book())
   }
 }

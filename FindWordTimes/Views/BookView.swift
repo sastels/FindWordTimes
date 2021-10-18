@@ -14,8 +14,8 @@ struct BookView: View {
     return (
       VStack(alignment: .leading, spacing: 16) {
         Text("\(urls.count) pages").frame(minWidth: 500, minHeight: 200)
-        ForEach(urls, id: \.self) {
-          PageView(url: $0)
+        ForEach(Array(zip(urls.indices, urls)), id: \.0) { pageIndex, url in
+          PageView(pageIndex: pageIndex, url: url)
         }
       }.onAppear {
         print("urls: \(urls)")

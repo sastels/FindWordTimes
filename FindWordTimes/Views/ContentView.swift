@@ -33,6 +33,11 @@ struct ContentView: View {
           Button("Choose Book") {
             openBook()
           }.buttonStyle(NiceButtonStyle())
+          Button("Print Metadata") {
+            print(book)
+          }.buttonStyle(NiceButtonStyle())
+          
+          
         }
         BookView(urls: urls).foregroundColor(.white)
           .frame(minWidth: windowSize.minWidth, minHeight: windowSize.minHeight)

@@ -8,8 +8,16 @@
 import Foundation
 import SwiftUI
 
-class Book: ObservableObject {
+class Book: ObservableObject, CustomStringConvertible {
    @Published var pages: [Sentence] = []
+  
+  var description: String {
+    var retVal = ""
+    for (index, page) in pages.enumerated() {
+      retVal += "Page \(index):\n\(page)\n"
+    }
+    return retVal
+  }
   
   func setUrls(_ urls: [URL]) {
     pages = []
@@ -19,7 +27,7 @@ class Book: ObservableObject {
   }
 }
 
-class Sentence: ObservableObject {
+class Sentence: ObservableObject, CustomStringConvertible {
   @Published var transcription: [Fragment] = []
   @Published var actual: [String] = []
   @Published var audioUrl: URL
@@ -27,9 +35,13 @@ class Sentence: ObservableObject {
   init(url: URL) {
     audioUrl = url
   }
+  
+  var description: String {
+    return transcription.reduce("", {text, fragment in text + "\(fragment)\n"})
+  }
 }
 
-struct Fragment {
+struct Fragment: CustomStringConvertible {
   let id = UUID()
   var text: String = ""
   var startTime: TimeInterval = 0.0
@@ -41,5 +53,9 @@ struct Fragment {
     self.startTime = startTime
     self.endTime = endTime
     self.color = color
+  }
+  
+  var description: String {
+      return "\(text) (\(startTime), \(endTime))"
   }
 }
