@@ -26,9 +26,11 @@ struct PageView: View {
       }.buttonStyle(CustomButtonStyle())
 
       HStack {
-        ForEach(fragments, id: \.id) {
-          Text($0.text).foregroundColor($0.color).padding(.leading, 8).padding(.trailing, 8)
-            .border(Color.green)
+        ForEach(fragments, id: \.id) { fragment in
+          Button(fragment.text) {
+            print(fragment.text)
+          }.buttonStyle(fragment.color == .white ?
+                          CustomButtonStyle() : CustomButtonStyle(.default(type: .success)))
         }
       }
     }
