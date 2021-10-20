@@ -18,12 +18,12 @@ struct PageView: View {
     HStack(spacing: 8) {
       Button("Transcribe") {
         runRecognizer(url: url)
-      }.buttonStyle(CustomButtonStyle())
+      }.buttonStyle(CustomButtonStyle(.rounded( type: .light)))
 
       Button("Play colouring") {
         playSound(url)
         colorWords()
-      }.buttonStyle(CustomButtonStyle())
+      }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
 
       HStack {
         ForEach(fragments, id: \.id) { fragment in
