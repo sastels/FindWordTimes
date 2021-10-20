@@ -15,8 +15,11 @@
 		014183A6271B443E00CA9561 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A3271B443E00CA9561 /* ContentView.swift */; };
 		014183A7271B443E00CA9561 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A4271B443E00CA9561 /* PageView.swift */; };
 		014183A8271B443E00CA9561 /* BookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A5271B443E00CA9561 /* BookView.swift */; };
-		014183AA271B447200CA9561 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183A9271B447200CA9561 /* ButtonStyle.swift */; };
 		014183B2271CEB6000CA9561 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014183B1271CEB6000CA9561 /* Book.swift */; };
+		015A779F271D03780041761E /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779B271D03780041761E /* CustomButtonStyle.swift */; };
+		015A77A0271D03780041761E /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779C271D03780041761E /* Size.swift */; };
+		015A77A1271D03780041761E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779D271D03780041761E /* Style.swift */; };
+		015A77A2271D03780041761E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779E271D03780041761E /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +34,11 @@
 		014183A3271B443E00CA9561 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		014183A4271B443E00CA9561 /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		014183A5271B443E00CA9561 /* BookView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookView.swift; sourceTree = "<group>"; };
-		014183A9271B447200CA9561 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		014183B1271CEB6000CA9561 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		015A779B271D03780041761E /* CustomButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
+		015A779C271D03780041761E /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		015A779D271D03780041761E /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		015A779E271D03780041761E /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +94,7 @@
 		0141839E271B440300CA9561 /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				014183A9271B447200CA9561 /* ButtonStyle.swift */,
+				015A779A271D03780041761E /* ButtonUtils */,
 				0141839F271B440300CA9561 /* FragmentUtils.swift */,
 				014183A0271B440300CA9561 /* AudioUtils.swift */,
 			);
@@ -111,6 +117,17 @@
 				014183A4271B443E00CA9561 /* PageView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		015A779A271D03780041761E /* ButtonUtils */ = {
+			isa = PBXGroup;
+			children = (
+				015A779B271D03780041761E /* CustomButtonStyle.swift */,
+				015A779C271D03780041761E /* Size.swift */,
+				015A779D271D03780041761E /* Style.swift */,
+				015A779E271D03780041761E /* Color.swift */,
+			);
+			path = ButtonUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,14 +199,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015A779F271D03780041761E /* CustomButtonStyle.swift in Sources */,
 				014183B2271CEB6000CA9561 /* Book.swift in Sources */,
 				0141838F271B436600CA9561 /* FindWordTimesApp.swift in Sources */,
 				014183A8271B443E00CA9561 /* BookView.swift in Sources */,
 				014183A2271B440300CA9561 /* AudioUtils.swift in Sources */,
+				015A77A2271D03780041761E /* Color.swift in Sources */,
 				014183A6271B443E00CA9561 /* ContentView.swift in Sources */,
+				015A77A0271D03780041761E /* Size.swift in Sources */,
 				014183A1271B440300CA9561 /* FragmentUtils.swift in Sources */,
 				014183A7271B443E00CA9561 /* PageView.swift in Sources */,
-				014183AA271B447200CA9561 /* ButtonStyle.swift in Sources */,
+				015A77A1271D03780041761E /* Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
