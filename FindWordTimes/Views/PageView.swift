@@ -15,6 +15,7 @@ struct PageView: View {
   var url: URL
   @State var apple: [Fragment] = []
   @State var google: [Fragment] = []
+  @State var manual: [Fragment] = []
 
   var body: some View {
     return (
@@ -26,13 +27,24 @@ struct PageView: View {
           }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
           Button("Play colouring") {
             playSound(url)
+            colorManualFragments()
             colorAppleFragments()
             colorGoogleFragments()
           }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
         }
-        VStack {
-          textForFragments(apple)
-          textForFragments(google)
+        VStack(alignment: .leading, spacing: 4) {
+          HStack {
+            Text("Manual: ")
+            textForFragments(manual)
+          }
+          HStack {
+            Text("  Apple: ")
+            textForFragments(apple)
+          }
+          HStack {
+            Text("Google: ")
+            textForFragments(google)
+          }
         }
       }
     )
@@ -46,13 +58,6 @@ struct PageView: View {
         + Text(" | ")
     }
   }
-
-//      return words.reduce(Text("")) {
-//        $0
-//          + Text($1[0]).foregroundColor($1[1] == "red" ? .red : .black)
-//          + Text(" ")
-//      }
-//    }
 
   func sentenceButtons(_ fragments: [Fragment]) -> some View {
     HStack {
@@ -75,7 +80,7 @@ struct PageView: View {
       }
     }
   }
-  
+
   func colorGoogleFragments() {
     for (index, fragment) in google.enumerated() {
       Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
@@ -86,10 +91,22 @@ struct PageView: View {
       }
     }
   }
-  
-  
+
+  func colorManualFragments() {
+    for (index, fragment) in manual.enumerated() {
+      Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
+        manual[index].color = .red
+      }
+      Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
+        manual[index].color = .white
+      }
+    }
+  }
 
   func runRecognizer(url: URL) {
+    manual = book.pages[pageIndex].manual
+    google = book.pages[pageIndex].google
+
     SFSpeechRecognizer.requestAuthorization {
       authStatus in
       switch authStatus {
@@ -107,7 +124,6 @@ struct PageView: View {
               apple.append(newFragment)
               book.pages[pageIndex].apple.append(newFragment)
             }
-            google = Array(apple[1...])
           }
         }
       case .denied:

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,7 @@
 		015A77A0271D03780041761E /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779C271D03780041761E /* Size.swift */; };
 		015A77A1271D03780041761E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779D271D03780041761E /* Style.swift */; };
 		015A77A2271D03780041761E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A779E271D03780041761E /* Color.swift */; };
+		01E1D3D12726062000A8E925 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 01E1D3D02726062000A8E925 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01E1D3D12726062000A8E925 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +148,9 @@
 			dependencies = (
 			);
 			name = FindWordTimes;
+			packageProductDependencies = (
+				01E1D3D02726062000A8E925 /* SwiftyJSON */,
+			);
 			productName = FindWordTimes;
 			productReference = 0141838B271B436600CA9561 /* FindWordTimes.app */;
 			productType = "com.apple.product-type.application";
@@ -173,6 +178,9 @@
 				Base,
 			);
 			mainGroup = 01418382271B436600CA9561;
+			packageReferences = (
+				01E1D3CF2726062000A8E925 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = 0141838C271B436600CA9561 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -401,6 +409,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		01E1D3CF2726062000A8E925 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		01E1D3D02726062000A8E925 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01E1D3CF2726062000A8E925 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 01418383271B436600CA9561 /* Project object */;
 }
