@@ -10,42 +10,84 @@ import SwiftUI
 
 struct PageView: View {
   @EnvironmentObject var book: Book
-  @State var pageIndex: Int
-  @State var url: URL
-  @State var fragments: [Fragment] = []
+  var pageIndex: Int
+
+  var url: URL
+  @State var apple: [Fragment] = []
+  @State var google: [Fragment] = []
 
   var body: some View {
-    HStack(spacing: 8) {
-      Button("Transcribe") {
-        runRecognizer(url: url)
-      }.buttonStyle(CustomButtonStyle(.rounded( type: .light)))
-
-      Button("Play colouring") {
-        playSound(url)
-        colorWords()
-      }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
-
-      HStack {
-        ForEach(fragments, id: \.id) { fragment in
-          Button(fragment.text) {
-            print(fragment.text)
-          }.buttonStyle(fragment.color == .white ?
-                          CustomButtonStyle() : CustomButtonStyle(.default(type: .success)))
+    return (
+      VStack(spacing: 8) {
+        HStack(spacing: 8) {
+          Button("Transcribe \(pageIndex)") {
+            print("recognize \(url)")
+            runRecognizer(url: url)
+          }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
+          Button("Play colouring") {
+            playSound(url)
+            colorAppleFragments()
+            colorGoogleFragments()
+          }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
+        }
+        VStack {
+          textForFragments(apple)
+          textForFragments(google)
         }
       }
+    )
+  }
+
+  func textForFragments(_ fragments: [Fragment]) -> some View {
+    return fragments.reduce(Text("")) { text, fragment in
+      text +
+        Text(fragment.text)
+        .foregroundColor(fragment.color)
+        + Text(" | ")
     }
   }
 
-  func colorWords() {
-    for (index, fragment) in fragments.enumerated() {
-      Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
-        fragments[index].color = .red
-      }
-      Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
-        fragments[index].color = .white
+//      return words.reduce(Text("")) {
+//        $0
+//          + Text($1[0]).foregroundColor($1[1] == "red" ? .red : .black)
+//          + Text(" ")
+//      }
+//    }
+
+  func sentenceButtons(_ fragments: [Fragment]) -> some View {
+    HStack {
+      ForEach(fragments, id: \.id) { fragment in
+        Button(fragment.text) {
+          print(fragment.text)
+        }.buttonStyle(fragment.color == .white ?
+          CustomButtonStyle() : CustomButtonStyle(.default(type: .success)))
       }
     }
   }
+
+  func colorAppleFragments() {
+    for (index, fragment) in apple.enumerated() {
+      Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
+        apple[index].color = .red
+      }
+      Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
+        apple[index].color = .white
+      }
+    }
+  }
+  
+  func colorGoogleFragments() {
+    for (index, fragment) in google.enumerated() {
+      Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
+        google[index].color = .red
+      }
+      Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
+        google[index].color = .white
+      }
+    }
+  }
+  
+  
 
   func runRecognizer(url: URL) {
     SFSpeechRecognizer.requestAuthorization {
@@ -55,16 +97,17 @@ struct PageView: View {
         let request = SFSpeechURLRecognitionRequest(url: url)
         SFSpeechRecognizer()?.recognitionTask(with: request) { result, _ in
           if let transcription = result?.bestTranscription {
-            fragments.removeAll()
-            book.pages[pageIndex].transcription.removeAll()
+            apple.removeAll()
+            book.pages[pageIndex].apple.removeAll()
             for segment in transcription.segments {
               let newFragment = Fragment(text: segment.substring,
                                          startTime: segment.timestamp,
                                          endTime: segment.timestamp + segment.duration,
                                          color: .white)
-              fragments.append(newFragment)
-              book.pages[pageIndex].transcription.append(newFragment)
+              apple.append(newFragment)
+              book.pages[pageIndex].apple.append(newFragment)
             }
+            google = Array(apple[1...])
           }
         }
       case .denied:

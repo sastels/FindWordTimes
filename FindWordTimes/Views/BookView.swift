@@ -9,16 +9,21 @@ import SwiftUI
 
 struct BookView: View {
   var urls: [URL]
+  @State var pageIndex = 0
 
   var body: some View {
     return (
-      VStack(alignment: .leading, spacing: 16) {
-        Text("\(urls.count) pages").frame(minWidth: 500, minHeight: 200)
-        ForEach(Array(zip(urls.indices, urls)), id: \.0) { pageIndex, url in
-          PageView(pageIndex: pageIndex, url: url)
+      VStack(spacing: 16) {
+        HStack(spacing: 8) {
+          ForEach(urls.indices, id: \.self) { page in
+            Button("\(page)") {
+              self.pageIndex = page
+            }.buttonStyle(page == pageIndex ? CustomButtonStyle(.outline()) : CustomButtonStyle())
+          }
         }
-      }.onAppear {
-        print("urls: \(urls)")
+        if pageIndex < urls.count {
+          PageView(pageIndex: pageIndex, url: urls[pageIndex])
+        }
       }
     )
   }

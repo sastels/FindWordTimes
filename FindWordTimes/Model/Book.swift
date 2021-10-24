@@ -28,8 +28,9 @@ class Book: ObservableObject, CustomStringConvertible {
 }
 
 class Sentence: ObservableObject, CustomStringConvertible {
-  @Published var transcription: [Fragment] = []
-  @Published var actual: [String] = []
+  @Published var apple: [Fragment] = []
+  @Published var google: [Fragment] = []
+  @Published var manual: [Fragment] = []
   @Published var audioUrl: URL
   
   init(url: URL) {
@@ -37,7 +38,7 @@ class Sentence: ObservableObject, CustomStringConvertible {
   }
   
   var description: String {
-    return transcription.reduce("", {text, fragment in text + "\(fragment)\n"})
+    return manual.reduce("", {text, fragment in text + "\(fragment)\n"})
   }
 }
 
