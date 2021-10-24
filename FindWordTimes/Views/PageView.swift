@@ -13,7 +13,8 @@ struct PageView: View {
   var pageIndex: Int
 
   var url: URL
-  @State var fragments: [Fragment] = []
+  @State var apple: [Fragment] = []
+  @State var google: [Fragment] = []
 
   var body: some View {
     return (
@@ -25,13 +26,33 @@ struct PageView: View {
           }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
           Button("Play colouring") {
             playSound(url)
-            colorWords()
+            colorAppleFragments()
+            colorGoogleFragments()
           }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
         }
-        sentenceButtons(fragments)
+        VStack {
+          textForFragments(apple)
+          textForFragments(google)
+        }
       }
     )
   }
+
+  func textForFragments(_ fragments: [Fragment]) -> some View {
+    return fragments.reduce(Text("")) { text, fragment in
+      text +
+        Text(fragment.text)
+        .foregroundColor(fragment.color)
+        + Text(" | ")
+    }
+  }
+
+//      return words.reduce(Text("")) {
+//        $0
+//          + Text($1[0]).foregroundColor($1[1] == "red" ? .red : .black)
+//          + Text(" ")
+//      }
+//    }
 
   func sentenceButtons(_ fragments: [Fragment]) -> some View {
     HStack {
@@ -44,16 +65,29 @@ struct PageView: View {
     }
   }
 
-  func colorWords() {
-    for (index, fragment) in fragments.enumerated() {
+  func colorAppleFragments() {
+    for (index, fragment) in apple.enumerated() {
       Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
-        fragments[index].color = .red
+        apple[index].color = .red
       }
       Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
-        fragments[index].color = .white
+        apple[index].color = .white
       }
     }
   }
+  
+  func colorGoogleFragments() {
+    for (index, fragment) in google.enumerated() {
+      Timer.scheduledTimer(withTimeInterval: fragment.startTime, repeats: false) { _ in
+        google[index].color = .red
+      }
+      Timer.scheduledTimer(withTimeInterval: fragment.endTime, repeats: false) { _ in
+        google[index].color = .white
+      }
+    }
+  }
+  
+  
 
   func runRecognizer(url: URL) {
     SFSpeechRecognizer.requestAuthorization {
@@ -63,16 +97,17 @@ struct PageView: View {
         let request = SFSpeechURLRecognitionRequest(url: url)
         SFSpeechRecognizer()?.recognitionTask(with: request) { result, _ in
           if let transcription = result?.bestTranscription {
-            fragments.removeAll()
+            apple.removeAll()
             book.pages[pageIndex].apple.removeAll()
             for segment in transcription.segments {
               let newFragment = Fragment(text: segment.substring,
                                          startTime: segment.timestamp,
                                          endTime: segment.timestamp + segment.duration,
                                          color: .white)
-              fragments.append(newFragment)
+              apple.append(newFragment)
               book.pages[pageIndex].apple.append(newFragment)
             }
+            google = Array(apple[1...])
           }
         }
       case .denied:
