@@ -10,28 +10,36 @@ import SwiftUI
 
 struct PageView: View {
   @EnvironmentObject var book: Book
-  @State var pageIndex: Int
-  @State var url: URL
+  var pageIndex: Int
+
+  var url: URL
   @State var fragments: [Fragment] = []
 
   var body: some View {
-    HStack(spacing: 8) {
-      Button("Transcribe") {
-        runRecognizer(url: url)
-      }.buttonStyle(CustomButtonStyle(.rounded( type: .light)))
-
-      Button("Play colouring") {
-        playSound(url)
-        colorWords()
-      }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
-
-      HStack {
-        ForEach(fragments, id: \.id) { fragment in
-          Button(fragment.text) {
-            print(fragment.text)
-          }.buttonStyle(fragment.color == .white ?
-                          CustomButtonStyle() : CustomButtonStyle(.default(type: .success)))
+    return (
+      VStack(spacing: 8) {
+        HStack(spacing: 8) {
+          Button("Transcribe \(pageIndex)") {
+            print("recognize \(url)")
+            runRecognizer(url: url)
+          }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
+          Button("Play colouring") {
+            playSound(url)
+            colorWords()
+          }.buttonStyle(CustomButtonStyle(.rounded(type: .light)))
         }
+        sentenceButtons(fragments)
+      }
+    )
+  }
+
+  func sentenceButtons(_ fragments: [Fragment]) -> some View {
+    HStack {
+      ForEach(fragments, id: \.id) { fragment in
+        Button(fragment.text) {
+          print(fragment.text)
+        }.buttonStyle(fragment.color == .white ?
+          CustomButtonStyle() : CustomButtonStyle(.default(type: .success)))
       }
     }
   }
@@ -56,14 +64,14 @@ struct PageView: View {
         SFSpeechRecognizer()?.recognitionTask(with: request) { result, _ in
           if let transcription = result?.bestTranscription {
             fragments.removeAll()
-            book.pages[pageIndex].transcription.removeAll()
+            book.pages[pageIndex].apple.removeAll()
             for segment in transcription.segments {
               let newFragment = Fragment(text: segment.substring,
                                          startTime: segment.timestamp,
                                          endTime: segment.timestamp + segment.duration,
                                          color: .white)
               fragments.append(newFragment)
-              book.pages[pageIndex].transcription.append(newFragment)
+              book.pages[pageIndex].apple.append(newFragment)
             }
           }
         }
