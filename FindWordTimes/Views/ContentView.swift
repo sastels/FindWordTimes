@@ -65,6 +65,7 @@ struct ContentView: View {
         UserDefaults.standard.set(bookPath, forKey: "bookPath")
         getFiles()
         loadManualTimings()
+        loadGoogleTimings()
       }
     } else {
       // User clicked on "Cancel"
@@ -93,8 +94,8 @@ struct ContentView: View {
     let fm = FileManager.default
     do {
       let jsonFiles = try fm.contentsOfDirectory(atPath: bookPath).filter { $0.hasSuffix(".json") }
-      
-      let jsonFile = "\(bookPath)/\(jsonFiles[0])"
+
+      let jsonFile = "\(bookPath)/\(jsonFiles[1])"
 
       guard let jsonData: Data = try? String(contentsOfFile: jsonFile).data(using: .utf8) else { return }
       guard let json = try? JSON(data: jsonData) else { return }
@@ -102,25 +103,69 @@ struct ContentView: View {
       let pages = json["pages"].arrayObject as! [String]
       let timings = json["audio"]["f1"]
       let timingsDict = timings.dictionaryValue
-      
+
       let keys = timingsDict.keys.sorted()
-      
+
       for (index, (key, page)) in zip(keys, pages).enumerated() {
         let words = page.split(separator: " ")
         var wordStarts = timingsDict[key]?.arrayObject as! [Double]
         if wordStarts.isEmpty {
-          wordStarts = words.map{_ in 0}
+          wordStarts = words.map { _ in 0 }
         }
         wordStarts.append(wordStarts.last! + 1)
-        
+
         var fragments: [Fragment] = []
         for n in 0..<words.count {
-          fragments.append(Fragment(text: String(words[n]), startTime: wordStarts[n], endTime: wordStarts[n+1]))
+          fragments.append(Fragment(text: String(words[n]), startTime: wordStarts[n], endTime: wordStarts[n + 1]))
         }
         book.pages[index].manual = fragments
       }
-      
-      
+
+    } catch {
+      // couldn't find json file
+      print("Couldn't find json file in \(bookPath)")
+    }
+  }
+
+  func loadGoogleTimings() {
+    let fm = FileManager.default
+    do {
+      let jsonFiles = try fm.contentsOfDirectory(atPath: bookPath).filter { $0.hasSuffix(".json") }
+
+      let jsonFile = "\(bookPath)/\(jsonFiles[0])"
+
+      print("=====================")
+      print(jsonFile)
+      guard let jsonData: Data = try? String(contentsOfFile: jsonFile).data(using: .utf8) else {
+        return
+      }
+      print("guard passed!")
+      print(jsonData)
+      print("that was data")
+
+      guard let json = try? JSON(data: jsonData) else { return }
+
+      let pages = json["pages"].arrayObject as! [String]
+      let timings = json["audio"]["f1"]
+      let timingsDict = timings.dictionaryValue
+
+      let keys = timingsDict.keys.sorted()
+
+      for (index, (key, page)) in zip(keys, pages).enumerated() {
+        let words = page.split(separator: " ")
+        var wordStarts = timingsDict[key]?.arrayObject as! [Double]
+        if wordStarts.isEmpty {
+          wordStarts = words.map { _ in 0 }
+        }
+        wordStarts.append(wordStarts.last! + 1)
+
+        var fragments: [Fragment] = []
+        for n in 0..<words.count {
+          fragments.append(Fragment(text: String(words[n]), startTime: wordStarts[min(wordStarts.count-1, n)], endTime: wordStarts[min(wordStarts.count - 1, n + 1)]))
+        }
+        book.pages[index].google = fragments
+      }
+
     } catch {
       // couldn't find json file
       print("Couldn't find json file in \(bookPath)")
